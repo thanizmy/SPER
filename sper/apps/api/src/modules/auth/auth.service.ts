@@ -1,4 +1,6 @@
-import argon2 from 'argon2';
+import bcrypt from 'bcryptjs';
+
+const BCRYPT_ROUNDS = 12;
 import { db, type DB } from '../../config/db';
 import { AuthRepo, authRepo } from './auth.repo';
 import {
@@ -45,7 +47,7 @@ export class AuthService {
     const existing = await this.repo.findByEmail(this.database, input.email);
     if (existing) throw new ConflictError('An account with that email already exists');
 
-    const passwordHash = await argon2.hash(input.password);
+    const passwordHash = await bcrypt.hash(input.password, BCRYPT_ROUNDS);
     const user = await this.repo.createUser(this.database, {
       name: input.name,
       email: input.email,
@@ -60,7 +62,7 @@ export class AuthService {
     // Uniform failure to avoid leaking which emails exist.
     if (!user || !user.passwordHash) throw new UnauthorizedError('Invalid credentials');
 
-    const valid = await argon2.verify(user.passwordHash, password);
+    const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) throw new UnauthorizedError('Invalid credentials');
 
     return { user: toUserDTO(user), tokens: issueTokens(user.id) };
@@ -112,7 +114,7 @@ export class AuthService {
     const user = await this.repo.findById(this.database, claims.sub);
     if (!user) throw new UnauthorizedError('Account no longer exists');
 
-    const passwordHash = await argon2.hash(newPassword);
+    const passwordHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
     const updated = await this.repo.updatePasswordHash(this.database, user.id, passwordHash);
     return { user: toUserDTO(updated), tokens: issueTokens(updated.id) };
   }
