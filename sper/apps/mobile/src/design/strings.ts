@@ -125,6 +125,7 @@ export const strings = {
       n === 1 ? 'Someone has watered your tree today.' : `${n} people have watered your tree today.`,
     encouragement: 'Someone already cares for you!',
     prayerToast: 'Someone just prayed for you.',
+    desktopOutreachNote: 'Sending a voice note or message works from a phone — open this on your phone to reach out this way, or log "I prayed" from here.',
   },
 
   member: {

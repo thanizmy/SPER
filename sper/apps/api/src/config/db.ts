@@ -8,9 +8,14 @@ import * as schema from '../db/schema';
  * Import `db` in repositories; import `pool` only for shutdown/health.
  */
 
+// On Vercel, each request may run in its own short-lived function instance,
+// each opening its own pool -- keep per-instance pool size small and lean on
+// the database's own connection pooler (e.g. Neon's pooled connection string).
+const isServerless = Boolean(process.env.VERCEL);
+
 export const pool = new Pool({
   connectionString: env.DATABASE_URL,
-  max: isProd ? 20 : 5,
+  max: isServerless ? 3 : isProd ? 20 : 5,
   idleTimeoutMillis: 30_000,
   connectionTimeoutMillis: 5_000,
 });

@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm --filter @sper/shared-types build && pnpm --filter @sper/mobile build:web",
+  "outputDirectory": "dist",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}

@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStorage from '../lib/secureStorage';
 import type {
   AuthResponse,
   AuthTokens,
@@ -24,18 +24,18 @@ const ACCESS_KEY = 'sper.access';
 const REFRESH_KEY = 'sper.refresh';
 
 async function setTokens(t: AuthTokens): Promise<void> {
-  await SecureStore.setItemAsync(ACCESS_KEY, t.access_token);
-  await SecureStore.setItemAsync(REFRESH_KEY, t.refresh_token);
+  await SecureStorage.setItem(ACCESS_KEY, t.access_token);
+  await SecureStorage.setItem(REFRESH_KEY, t.refresh_token);
 }
 export async function clearTokens(): Promise<void> {
-  await SecureStore.deleteItemAsync(ACCESS_KEY);
-  await SecureStore.deleteItemAsync(REFRESH_KEY);
+  await SecureStorage.deleteItem(ACCESS_KEY);
+  await SecureStorage.deleteItem(REFRESH_KEY);
 }
 async function getAccess(): Promise<string | null> {
-  return SecureStore.getItemAsync(ACCESS_KEY);
+  return SecureStorage.getItem(ACCESS_KEY);
 }
 async function getRefresh(): Promise<string | null> {
-  return SecureStore.getItemAsync(REFRESH_KEY);
+  return SecureStorage.getItem(REFRESH_KEY);
 }
 
 export class ApiError extends Error {

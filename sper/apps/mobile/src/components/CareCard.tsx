@@ -5,7 +5,7 @@ import { color, elevation, radius, space, type } from '../design/tokens';
 import { strings } from '../design/strings';
 import { ResponderGuidanceBox } from './ResponderGuidanceBox';
 import { Touchable } from './Touchable';
-import { openWhatsApp, openMessage, outreachPrefill } from '../lib/deeplink';
+import { openWhatsApp, openMessage, outreachPrefill, isDesktopWeb } from '../lib/deeplink';
 
 interface Props {
   card: CareCardDTO;
@@ -56,9 +56,14 @@ export function CareCard({ card, onLogCare, alreadyReached }: Props) {
         <>
           {card.verse ? <Text style={styles.verse}>{card.verse}</Text> : null}
           <ResponderGuidanceBox />
+          {isDesktopWeb() ? <Text style={styles.note}>{strings.care.desktopOutreachNote}</Text> : null}
           <View style={styles.actions}>
-            <Action label={strings.care.sendVoiceNote} onPress={sendVoice} primary />
-            <Action label={strings.care.sendMessage} onPress={sendMsg} />
+            {!isDesktopWeb() ? (
+              <>
+                <Action label={strings.care.sendVoiceNote} onPress={sendVoice} primary />
+                <Action label={strings.care.sendMessage} onPress={sendMsg} />
+              </>
+            ) : null}
             <Action label={strings.care.pray} onPress={() => onLogCare('PrayedFor')} />
           </View>
         </>

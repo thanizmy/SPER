@@ -10,6 +10,17 @@ function encode(text: string): string {
   return encodeURIComponent(text);
 }
 
+/**
+ * True on a desktop/laptop web browser, where whatsapp:/sms:/tel: links
+ * don't reliably launch anything. False on native apps and on mobile web
+ * browsers, where these links work as expected.
+ */
+export function isDesktopWeb(): boolean {
+  if (Platform.OS !== 'web') return false;
+  if (typeof navigator === 'undefined') return true;
+  return !/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
 export async function openWhatsApp(text: string, phone?: string): Promise<boolean> {
   const url = phone
     ? `whatsapp://send?phone=${encode(phone)}&text=${encode(text)}`
@@ -30,6 +41,7 @@ export async function openCall(phone: string): Promise<boolean> {
 }
 
 async function tryOpen(url: string): Promise<boolean> {
+  if (isDesktopWeb()) return false;
   try {
     const supported = await Linking.canOpenURL(url);
     if (!supported) return false;

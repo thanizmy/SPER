@@ -17,6 +17,10 @@
     "android": {
       "package": "app.sper.mobile"
     },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
     "plugins": ["expo-secure-store", "expo-localization"]
   }
 }
