@@ -8,7 +8,7 @@
     "worker": "tsx src/workers/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build": "tsc",
+    "build": "pnpm --filter @sper/shared-types build && tsc",
     "start": "node dist/main.js",
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
