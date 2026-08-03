@@ -39,6 +39,7 @@
     "@types/pg": "^8.11.6",
     "dotenv": "^16.4.7",
     "drizzle-kit": "^0.24.0",
+    "esbuild": "^0.28.1",
     "tsx": "^4.16.0",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5"

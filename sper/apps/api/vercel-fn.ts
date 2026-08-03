@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { FastifyInstance } from 'fastify';
-import { buildApp } from '../src/app';
+import { buildApp } from './src/app';
 
 /**
  * Vercel entry point. Fastify normally owns its own http.Server via

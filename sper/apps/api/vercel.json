@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm --filter @sper/shared-types build",
+  "buildCommand": "pnpm --filter @sper/shared-types build && node build-vercel-fn.mjs",
   "outputDirectory": "public",
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
